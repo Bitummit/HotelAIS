@@ -1,0 +1,68 @@
+{% extends 'admin/navbar_admin.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Заселить
+{% endblock %}
+
+
+{% block content %}
+    <h3 class="text-center mt-5 mb-5">Заселить {{ client.first_name }} {{ client.last_name }}
+        в номер {{ room.number }}</h3>
+
+    <hr>
+    <div style="width: 700px; height: 1000px; margin-left: 20%">
+        <form action="{% url 'make_order_view'  number=room.number client_id=client.client_id date_in=date_in date_out=date_out%}" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th scope="row">Имя и фамилия</th>
+                    <th scope="row">{{ client.first_name }} {{ client.last_name }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Дата рождения</th>
+                    <th scope="row">{{ client.birthday }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Паспорт</th>
+                    <th scope="row">{{ client.passport }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Страна</th>
+                    <th scope="row">{{ client.country }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Пол</th>
+                    <th scope="row">{{ client.gender }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Комната</th>
+                    <th scope="row">{{ room.number }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Дата въезда</th>
+                    <th scope="row">{{ date_in }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Дата выезда</th>
+                    <th scope="row">{{ date_out }}</th>
+                </tr>
+                <tr>
+                    <th scope="row">Гостей </th>
+                    <th scope="row"><input type="number" class="form-control" name="persons" style=" width: 70px" min="1"
+                                     max="{{ room.type.persons }}" value="1"></th>
+                </tr>
+                <tr>
+                    <th scope="row">Итого</th>
+                    <th scope="row">{{ price }}</th>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <input type="submit" class="btn btn-success btn-block " value="Заселить">
+    </form>
+    </div>
+
+{% endblock %}

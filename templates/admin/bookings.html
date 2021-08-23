@@ -1,0 +1,102 @@
+{% extends 'admin/navbar_admin.html' %}
+
+{% block title %}
+    Бронирования
+{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="/static/css/categories_style.css">
+{% endblock %}
+
+
+{% block content %}
+    <h2 class="text-center mt-5 mb-5">Бронирования</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+            <br>
+    {% endif %}
+    <form action="{% url 'bookings' %}" method="POST">
+        {% csrf_token %}
+        <div style="display: table;margin: auto">
+            <div style="display: table-cell">
+                <strong>Найти по датам:</strong>
+            </div>
+            <div style="display: table-cell">
+                <input placeholder="Дата въезда"  required type="date" class="form-control" name="date_in" style=" width: 200px">
+            </div>
+
+            <div style="display: table-cell">
+                <input placeholder="Дата выезда" required type="date" class="form-control" name="date_out" style=" width: 200px">
+            </div>
+            <div style="display: table-cell; margin-left: 2000px">
+                <button type="submit" class="btn btn-primary">Найти</button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Статус</th>
+            <th scope="col">Номер</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Гостей</th>
+            <th scope="col">Посетитель</th>
+            <th scope="col">Дата въезда</th>
+            <th scope="col">Дата выезда</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Действие</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for booking in bookings %}
+
+            <tr>
+                {% if booking.status == 'Новый' %}
+                    <th scope="row" style="color: darkgreen">{{ booking.status }}</th>
+                {% elif booking.status == 'Подтвержден' %}
+                    <th scope="row" style="color: orange">{{ booking.status }}</th>
+                {% else %}
+                    <th scope="row" style="color: grey">{{ booking.status }}</th>
+                {% endif %}
+                <th scope="row">{{ booking.room.number }}</th>
+                <th scope="row">{{ booking.room.type.category_name }}</th>
+                <th scope="row">{{ booking.persons }}</th>
+                <th scope="row">
+                    <p>{{ booking.user.first_name }} {{ booking.user.patronymic }} {{ booking.user.last_name }}<br>
+                        Тел: {{ booking.user.phone }} <br>Эл. почта: {{ booking.user.user.email }}</p>
+                </th>
+                <th scope="row">{{ booking.entry_date }}</th>
+                <th scope="row">{{ booking.departure_date }}</th>
+                <th scope="row">{{ booking.price }} руб.</th>
+                <th>
+                    {% if booking.status != 'Заселено' %}
+                        <a class="ap" href="{% url 'delete_booking' pk=booking.pk %}"><span
+                                class="ingredient">Отменить</span></a>
+                        <br>
+                        {% if booking.status == 'Новый' %}
+                            <a style="margin-top: 20px; text-decoration: none;"
+                               href="{% url 'confirm_booking' pk=booking.pk %}"><span
+                                    class="ingredient">Подтвердить</span></a>
+                        {% elif booking.entry_date <= today %}
+                            <a style="margin-top: 20px; text-decoration: none;"
+                               href="{% url 'settling_booking' pk=booking.pk %}"><span
+                                    class="ingredient">Заселить</span></a>
+
+                        {% endif %}
+                    {% endif %}
+                </th>
+
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+{% endblock %}

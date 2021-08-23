@@ -1,0 +1,54 @@
+{% extends 'admin/navbar_admin.html' %}
+
+{% block title %}
+    Категории
+{% endblock %}
+{% block links %}
+    <link rel="stylesheet" href="/static/css/categories_style.css">
+{% endblock %}
+
+{% block content %}
+    <div>
+        <a class="btn btn-primary btn-lg btn-block" href="{% url 'add_category_view' %}" role="button">Создать категорию</a>
+    </div>
+    <br>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Изображение</th>
+            <th scope="col">Название</th>
+            <th scope="col">Кол-во человек</th>
+            <th scope="col">Цена в день</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for type in type_list %}
+            <tr>
+                <th scope="row"><img style="height: 100px; width: 200px" src="{{ type.image.url }}"></th>
+                <th scope="row">{{ type.category_name }}</th>
+                <th scope="row">{{ type.persons }}</th>
+                <th scope="row">{{ type.price_per_day }}</th>
+                <th scope="row">{{ type.desc | truncatewords:5}}</th>
+
+                <th>
+                    <a class="ap" href="{% url 'delete_category' type.category_name %}"><span class="ingredient">Удалить</span></a>
+                    <br>
+                    <a style="margin-top: 20px; text-decoration: none;" href="{% url 'update_category_view' type.category_name %}"><span class="ingredient">Редактировать</span></a>
+                </th>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

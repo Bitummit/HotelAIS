@@ -1,0 +1,54 @@
+{% extends 'admin/navbar_admin.html' %}
+
+{% block title %}
+    Посетители
+{% endblock %}
+
+
+{% block content %}
+        <h2 class="text-center mt-5 mb-5">Посетители</h2>
+    <br>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">ФИО</th>
+            <th scope="col">Страна</th>
+            <th scope="col">Паспортные данные</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Пол</th>
+            <th scope="col">Комната</th>
+            <th scope="col">Даты посещения</th>
+            <th scope="col">Действие</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th scope="row">{{ order.client.client_id}} </th>
+                <th scope="row">{{ order.client.first_name }} {{ order.client.patronymic }} {{ order.client.last_name }}</th>
+                <th scope="row">{{ order.client.country }}</th>
+                <th scope="row">{{ order.client.passport }}</th>
+                <th scope="row">{{ order.client.birthday }}</th>
+                <th scope="row">{{ order.client.gender }}</th>
+                <th scope="row">{{ order.room.number }}</th>
+                <th scope="row">{{ order.entry_date }}<br>{{ order.departure_date }}</th>
+                <th scope="row">
+                    <a style="text-decoration: none;" href="{% url 'update_client_view' order.client.client_id%}"><span class="ingredient">Изменить</span></a>
+                </th>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

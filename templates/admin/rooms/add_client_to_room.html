@@ -1,0 +1,30 @@
+{% extends 'admin/navbar_admin.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Заселить
+{% endblock %}
+
+
+{% block content %}
+    <h3 class="text-center mt-5 mb-5">Заселить в номер {{ room.number }}</h3>
+    <br>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <br>
+    <hr>
+    <div style="width: 500px; height: 1000px; margin-left: 30%">
+        <h4 class="text-center mt-5 mb-5">Введите данные о посетителе</h4>
+        <form action="{% url 'settling_view_add_client' number=room.number date_in=date_in date_out=date_out%}" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            {{ form|crispy}}
+        <input type="submit" class="btn btn-success btn-block " value="Далее">
+    </form>
+    </div>
+
+{% endblock %}

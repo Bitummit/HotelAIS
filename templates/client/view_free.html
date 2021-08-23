@@ -1,0 +1,43 @@
+{% extends 'client/base_client.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Бронирование | TestHotel
+{% endblock %}
+
+
+{% block content %}
+    <h3 class="text-center mt-5 mb-5">Свободные номера <strong>с {{ date_in }} по {{ date_out }}</strong></h3>
+
+    <div class="row row-cols-1 row-cols-md-3">
+        {% for type in types %}
+            <div class="col mb-4 mt-5">
+                <div class="card h-100">
+                    <img src="{{ type.image.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ type.category_name }}</strong></h5>
+                        <p class="card-text">Цена в сутки: {{ type.price_per_day }} руб.</p>
+                        <p class="card-text">До {{ type.persons }} человек</p>
+                        {% if type.free_rooms > 0 %}
+                            {% if type.free_rooms == 1 %}
+                            <p class="card-text"  style="color: green">Свободен {{ type.free_rooms }} номер</p>
+                            {% endif %}
+                            {% if type.free_rooms >= 2 and type.free_rooms <= 4 %}
+                                <p class="card-text"  style="color: green">Свободно {{ type.free_rooms }} номера</p>
+                            {% endif %}
+                            {% if type.free_rooms >= 5 and type.free_rooms <= 20 %}
+                                <p class="card-text"  style="color: green">Свободно {{ type.free_rooms }} номеров</p>
+                            {% endif %}
+                            <a href="{% url 'booking' pk=type.pk date_in=date_in date_out=date_out%}" class="btn btn-primary">Забронировать</a>
+                            {% else %}
+                            <p class="card-text" style="color: grey">Нет свободных номеров</p>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

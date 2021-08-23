@@ -1,0 +1,58 @@
+{% extends 'admin/navbar_admin.html' %}
+
+{% block title %}
+    Сотрудники
+{% endblock %}
+{% block links %}
+    <link rel="stylesheet" href="/static/css/categories_style.css">
+{% endblock %}
+
+{% block content %}
+    <h2 class="text-center mt-5 mb-5">Сотрудники</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+            <br>
+    {% endif %}
+
+    <div>
+        <a class="btn btn-primary btn-lg btn-block" href="{% url 'staff_add' %}" role="button">Добавить сотрудника</a>
+    </div>
+    <br><br>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ФИО</th>
+            <th scope="col">Паспортные данные</th>
+            <th scope="col">Должность</th>
+            <th scope="col">Зарплата</th>
+            <th scope="col">Дейтсвие</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for st in staff %}
+        <tr>
+
+            <th scope="row">{{ st.last_name }} {{ st.first_name }} {{ st.patronymic }}</th>
+            <th scope="row">{{ st.passport }}</th>
+            <th scope="row">{{ st.position }}</th>
+            <th scope="row">{{ st.salary }} руб.</th>
+            <th>
+                    <a class="ap" href="{% url 'staff_delete' pk=st.id%}"><span class="ingredient">Удалить</span></a>
+                    <br>
+{#                    <a style="margin-top: 20px; text-decoration: none;" href="#"><span class="ingredient">Редактировать</span></a>#}
+                </th>
+
+        </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+{% endblock %}

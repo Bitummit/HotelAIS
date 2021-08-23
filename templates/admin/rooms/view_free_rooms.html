@@ -1,0 +1,47 @@
+{% extends 'admin/navbar_admin.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Заселить
+{% endblock %}
+
+
+{% block content %}
+    <h3 class="text-center mt-5 mb-5">Свободные номера <strong>с {{ date_in }} по {{ date_out }}</strong></h3>
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+            Выбрать тип
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{% url 'free_sort_rooms' pk=10000 date_out=date_out date_in=date_in%}" class="dropdown-item">Все</a>
+            </li>
+            {% for type in types %}
+                <li><a class="dropdown-item"
+                       href="{% url 'free_sort_rooms'  pk=type.id date_out=date_out date_in=date_in%}">{{ type.category_name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3">
+        {% for room in room_list %}
+            <div class="col mb-4 mt-5">
+                <div class="card h-100">
+                    <img src="{{ room.type.image.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Номер {{ room.number }}</h5>
+                        <p class="card-text">Тип номера: {{ room.type }}</p>
+                        <p class="card-text">Цена в сутки: {{ room.type.price_per_day }}</p>
+                        <a href="{% url 'settling_view_add_client' number=room.number date_in=date_in date_out=date_out%}"
+                           class="btn btn-primary">Заселить</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

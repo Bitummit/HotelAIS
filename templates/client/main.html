@@ -1,0 +1,44 @@
+{% extends 'client/base_client.html' %}
+
+{% block title %}
+    TestHotel
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <img src="https://s.zagranitsa.com/images/articles/1726/870x486/e11ea603ebacf17be9496b1d17b7d692.jpg?1444232108"
+             class="card-img-top">
+        <div class="card-body">
+            <p class="card-text">Мини-отель "Название отеля" – идеальное место для активных и энергичных
+                путешественников, желающих глубже познакомиться
+                как с историей и культурой Санкт-Петербурга, так и его светской жизнью, театрами, ресторанами, клубами.
+                Уютные номера, бесплатный wi-fi,
+                вкусный завтрак, забота и учтивость персонала сделают пребывание каждого гостя независимо от цели
+                поездки комфортным и приятным.</p>
+        </div>
+    </div>
+    <div class="card">
+        <h1 style="margin-left: 20px">Номера</h1>
+        {% for type in types %}
+            <div class="card mb-3" style="max-width: 98%; margin-left: 10px; ">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ type.image.url }}" width="420px" height="280px">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body" style="margin-left: 40px; ">
+                            <h5 class="card-title"><strong>{{ type.category_name }}</strong></h5>
+                            <p class="card-text">{{ type.desc }}</p>
+                            <p class="card-text">До {{ type.persons }} человек</p>
+                            <p class="card-text">Цена в сутки: {{ type.price_per_day }} руб.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <a href="{% url 'booking_dates' %}" class="btn btn-primary"
+           style="margin-left: 10px; width: 98%; margin-bottom: 20px">Забронировать</a>
+    </div>
+
+{% endblock %}

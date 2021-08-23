@@ -1,0 +1,29 @@
+{% extends 'admin/navbar_admin.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Изменить категорию
+{% endblock %}
+
+
+{% block content %}
+    <h3 class="text-center mt-5 mb-5">Изменить категорию "{{ category.category_name }}"</h3>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+            <br>
+    {% endif %}
+    <hr>
+    <div style="width: 500px; height: 1000px; margin-left: 30%">
+
+        <form action="{% url 'update_category_view' category.category_name%}" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            {{ form|crispy}}
+        <input type="submit" class="btn btn-success btn-block " value="Изменить">
+    </form>
+    </div>
+
+{% endblock %}

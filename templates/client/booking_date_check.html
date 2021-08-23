@@ -1,0 +1,42 @@
+{% extends 'client/base_client.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Бронирование | TestHotel
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="card" style="height: 400px">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert" style="width: 600px; margin: auto; text-align: center">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+        <h3 class="text-center mt-5 mb-5">Введите нужные даты</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div style="display: table; margin: auto">
+                <div style="display: table-cell">
+                    <strong>Найти по датам: </strong>
+                </div>
+                <div style="display: table-cell">
+                    <input placeholder="Дата въезда" required min="{{ today }}" type="date" class="form-control" name="date_in"
+                           style=" width: 200px">
+                </div>
+
+                <div style="display: table-cell">
+                    <input placeholder="Дата выезда" required min="{{ min_departure }}" type="date" class="form-control" name="date_out"
+                           style=" width: 200px">
+                </div>
+                <div style="display: table-cell; margin-left: 2000px">
+                    <button type="submit" class="btn btn-primary">Найти</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

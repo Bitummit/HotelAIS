@@ -1,0 +1,35 @@
+{% extends 'admin/navbar_admin.html' %}
+
+{% block title %}
+    Другие отели
+{% endblock %}
+
+
+{% block content %}
+        <h2 class="text-center mt-5 mb-5">Другие отели</h2>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Средняя цена в сутки</th>
+            <th scope="col">Адрес</th>
+            <th scope="col"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+                {% for hotel in hotels %}
+                    <tr>
+                        <th scope="row">{{ hotel.Title }}</th>
+                        <th scope="row">{{ hotel.Price }}</th>
+                        <th scope="row">{{ hotel.Address }}</th>
+
+                    </tr>
+                {% endfor %}
+
+
+        </tbody>
+    </table>
+
+{% endblock %}
