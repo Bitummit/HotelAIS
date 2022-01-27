@@ -1,0 +1,11 @@
+Django
+psycopg2
+Pillow
+asgiref
+bs4
+django-crispy-forms
+lxml
+pytz
+sqlparse
+requests
+django-environ
